@@ -26,11 +26,16 @@ const ProductDetails = () => {
         sim,
         system,
         display,
-        ram
+        ram,
+        battery,
+        camera,
+        camera1,
+        image
     } = product.product;
 
     return (
         <div className="container mt-4">
+            <img src={image} alt={title} style={{ maxWidth: '300px', marginBottom: '20px' }} />
             <h1>{title}</h1>
             <p>Prezzo: {price} €</p>
             <div>
@@ -46,6 +51,9 @@ const ProductDetails = () => {
                     <li><strong>Sistema operativo:</strong> {system}</li>
                     <li><strong>Display:</strong> {display}</li>
                     <li><strong>RAM:</strong> {ram} GB</li>
+                    <li><strong>Batteria:</strong> {battery} mAh</li>
+                    <li><strong>Camera:</strong> {camera} MP</li>
+                    <li><strong>Camera frontale:</strong> {camera1} MP</li>
                 </ul>
             </div>
         </div>

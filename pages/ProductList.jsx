@@ -1,90 +1,93 @@
 import ProductCard from "../components/ProductsCard";
-import { useState, useCallback } from "react";
+import { useContext, useState, useCallback, useMemo } from "react";
 import { GlobalContext } from "../context/GlobalContext";
-import { useContext } from "react";
 
-// funzione per il debounce
-function debounce(call, delay) {
+
+function debounce(func, wait) {
     let timer;
     return (value) => {
         clearTimeout(timer);
         timer = setTimeout(() => {
-            call(value);
-        }, delay);
-    };
+            func(value);
+        }, wait);
+    }
 }
 
 const ProductList = () => {
 
-    // accedo al contesto globale per ottenere i prodotti
-    const { products, loading, error } = useContext(GlobalContext);
-
-    if (loading) return <p>Caricamento prodotto...</p>;
-    if (error) return <p>Errore nel caricamento: {error.message || 'Errore sconosciuto'}</p>;
-
+    // prendo i prodotti dal contesto globale
+    const { products } = useContext(GlobalContext);
+    // stato per la ricerca e l'ordinamento
     const [searchTerm, setSearchTerm] = useState("");
-    // uso useCallback per memorizzare la funzione debounce in modo che non venga ricreata ad ogni render
-    const debouncedSetSearchTerm = useCallback(
-        debounce((value) => {
-            setSearchTerm(value);
-        }, 500),
-        []
-    );
+    const [sortOption, setSortOption] = useState("name-asc");
 
-    // stato per l'ordinamento
-    const [sortBy, setSortBy] = useState("title");
-    const [sortDirection, setSortDirection] = useState("asc");
 
-    // filtro e ordino i prodotti 
-    const filteredProducts = (products || [])
-        // filtro i prodotti in base al termine di ricerca
-        .filter(product =>
-            product.title.toLowerCase().includes((searchTerm || "").toLowerCase())
-        )
-        // ordino i prodotti in base alla chiave e alla direzione selezionata
-        .sort((a, b) => {
-            // confronto i valori in base alla direzione di ordinamento
-            const aValue = a[sortBy].toLowerCase();
-            const bValue = b[sortBy].toLowerCase();
+    // funzione per gestire la ricerca con debounce
+    const handleSearch = useCallback(debounce((value) => setSearchTerm(value), 500), []);
+    const handleSort = (e) => {
+        setSortOption(e.target.value);
+    }
 
-            if (sortDirection === "asc") {
-                return aValue.localeCompare(bValue);
-            } else {
-                return bValue.localeCompare(aValue);
-            }
-        });
+    // filtro e ordino i prodotti in base ai criteri di ricerca e ordinamento
+    const filteredProducts = useMemo(() => {
+        let filtered = products;
 
-    // funzione per gestire l'ordinamento
-    const handleSort = (key) => {
-        const newDirection = sortBy === key && sortDirection === "asc" ? "desc" : "asc";
-        setSortBy(key);
-        setSortDirection(newDirection);
-    };
+        if (searchTerm) {
+            filtered = filtered.filter(product =>
+                product.title.toLowerCase().includes(searchTerm.toLowerCase())
+            );
+        }
+
+        // ordino i prodotti in base all'opzione selezionata
+        switch (sortOption) {
+            case "name-asc":
+                filtered = filtered.sort((a, b) => a.title.localeCompare(b.title));
+                break;
+            case "name-desc":
+                filtered = filtered.sort((a, b) => b.title.localeCompare(a.title));
+                break;
+            case "category-asc":
+                filtered = filtered.sort((a, b) => a.category.localeCompare(b.category));
+                break;
+            case "category-desc":
+                filtered = filtered.sort((a, b) => b.category.localeCompare(a.category));
+                break;
+            default:
+                break;
+        }
+
+        return filtered;
+    }, [products, searchTerm, sortOption]);
 
 
     return (
         <div className="container mt-4">
-            <h1 className="mb-4">Product List</h1>
-            <div className="mb-4 d-flex flex-column flex-md-row justify-content-md-between align-items-md-center">
-                <div>
-                    <input
-                        type="text"
-                        className="form-control"
-                        placeholder="Search products..."
-                        onChange={(e) => debouncedSetSearchTerm(e.target.value)}
-                    />
-                </div>
-                <div>
-                    <button className="btn btn-primary ms-2" onClick={() => handleSort("title")}>
-                        Sort by Title {sortBy === "title" ? (sortDirection === "asc" ? "A-Z" : "Z-A") : ""}
-                    </button>
-                    <button className="btn btn-primary ms-2" onClick={() => handleSort("category")}>
-                        Sort by Category {sortBy === "category" ? (sortDirection === "asc" ? "A-Z" : "Z-A") : ""}
-                    </button>
-                </div>
-
+            <h1>Product List</h1>
+            <div>
+                <input
+                    type="text" placeholder="Cerca prodotto..."
+                    onChange={(e) => handleSearch(e.target.value)}
+                    className="form-control mb-3"
+                />
             </div>
-            <ProductCard elements={filteredProducts} />
+            <div>
+                <select value={sortOption} onChange={handleSort} className="form-select mb-3">
+                    <option value="default">Ordina</option>
+                    <option value="name-asc">nome: A a Z</option>
+                    <option value="name-desc">nome: Z a A</option>
+                    <option value="category-asc">Categoria: A a Z</option>
+                    <option value="category-desc">Categoria: Z a A</option>
+                </select>
+            </div>
+            <div className="row row-cols-1 row-cols-md-4 g-3">
+                {filteredProducts.length > 0 ? (
+                    filteredProducts.map(product => (
+                        <ProductCard key={product.id} productId={product.id} />
+                    ))
+                ) : (
+                    <p>Nessun prodotto trovato</p>
+                )}
+            </div>
         </div>
     );
 };

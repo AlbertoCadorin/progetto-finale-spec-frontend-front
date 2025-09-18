@@ -14,6 +14,7 @@ const useProducts = () => {
                 const response = await fetch(`${VITE_PUBLIC_PATH}/products`);
                 if (!response.ok) throw new Error("Errore nel caricamento dei prodotti");
                 const data = await response.json();
+                console.log(data);
                 setProducts(data);
             } catch (err) {
                 setError(err);
