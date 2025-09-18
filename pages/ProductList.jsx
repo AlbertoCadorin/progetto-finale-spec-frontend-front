@@ -15,8 +15,12 @@ function debounce(call, delay) {
 }
 
 const ProductList = () => {
+
     // accedo al contesto globale per ottenere i prodotti
-    const { products } = useContext(GlobalContext);
+    const { products, loading, error } = useContext(GlobalContext);
+
+    if (loading) return <p>Caricamento prodotto...</p>;
+    if (error) return <p>Errore nel caricamento: {error.message || 'Errore sconosciuto'}</p>;
 
     const [searchTerm, setSearchTerm] = useState("");
     // uso useCallback per memorizzare la funzione debounce in modo che non venga ricreata ad ogni render
@@ -70,7 +74,7 @@ const ProductList = () => {
                         onChange={(e) => debouncedSetSearchTerm(e.target.value)}
                     />
                 </div>
-                <div className="mb-3">
+                <div>
                     <button className="btn btn-primary ms-2" onClick={() => handleSort("title")}>
                         Sort by Title {sortBy === "title" ? (sortDirection === "asc" ? "A-Z" : "Z-A") : ""}
                     </button>

@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 
 const ProductCard = ({ elements }) => {
 
@@ -8,8 +10,10 @@ const ProductCard = ({ elements }) => {
                 <div className="col" key={product.id}>
                     <div className="card" >
                         <div className="card-body">
-                            <h5 className="card-title">{product.title}</h5>
-                            <p className="card-text">{product.category}</p>
+                            <Link to={`/products/${product.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                                <h5 className="card-title">{product.title}</h5>
+                                <p className="card-text">{product.category}</p>
+                            </Link>
                         </div>
                     </div>
                 </div>
