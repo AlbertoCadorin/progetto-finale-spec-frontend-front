@@ -15,7 +15,7 @@ const ProductCard = ({ productId }) => {
     return (
 
         <div className="col">
-            <div className="card" style={{ width: "18rem" }}>
+            <div className="card" >
                 <Link to={`/products/${productId}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                     <img src={product.product.image} className="card-img-top" style={{
                         width: "100%",

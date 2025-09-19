@@ -63,23 +63,24 @@ const ProductList = () => {
     return (
         <div className="container mt-4">
             <h1>Product List</h1>
-            <div>
+            <div className="mb-4">
                 <input
                     type="text" placeholder="Cerca prodotto..."
                     onChange={(e) => handleSearch(e.target.value)}
-                    className="form-control mb-3"
+                    className="form-control form-search mb-3"
                 />
             </div>
-            <div>
-                <select value={sortOption} onChange={handleSort} className="form-select mb-3">
-                    <option value="default">Ordina</option>
+            <div className="mb-4">
+                <label htmlFor="sort" className="form-label">Ordina per:</label>
+                <select value={sortOption} onChange={handleSort} className="form-select form-options mb-3">
                     <option value="name-asc">nome: A a Z</option>
                     <option value="name-desc">nome: Z a A</option>
                     <option value="category-asc">Categoria: A a Z</option>
                     <option value="category-desc">Categoria: Z a A</option>
                 </select>
             </div>
-            <div className="row row-cols-1 row-cols-md-4 g-3">
+
+            <div className="row row-cols-1 row-cols-md-4 g-4 mt-2">
                 {filteredProducts.length > 0 ? (
                     filteredProducts.map(product => (
                         <ProductCard key={product.id} productId={product.id} />

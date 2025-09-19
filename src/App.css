@@ -1,0 +1,21 @@
+/** Navbar styles **/
+
+.nav-color {
+    background-color: #8648ff;
+}
+
+.navbar-nav {
+    --bs-nav-link-color: #f8f9fa;
+    --bs-nav-link-hover-color: rgb(187 135 225 / 80%);
+}
+
+
+/** Product List Page styles **/
+
+.form-options {
+    max-width: 170px;
+}
+
+.form-search {
+    max-width: 30%;
+}
