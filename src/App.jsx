@@ -5,7 +5,7 @@ import DefaultLayout from '../layout/DefaulLayout'
 import GlobalContextProvider from "../context/GlobalContext"
 import AboutPage from "../pages/AboutPage"
 import ContactsPage from "../pages/ContactsPage"
-import ProductDetails from "../pages/ProductsDetails"
+import ProductDetails from "../components/ProductsDetails"
 import './App.css'
 
 function App() {

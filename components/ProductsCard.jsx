@@ -5,8 +5,9 @@ import useProduct from "../hooks/useProduct";
 
 const ProductCard = ({ productId }) => {
 
+    // uso l'hook personalizzato per ottenere i dettagli del prodotto
     const { product, loading, error } = useProduct(productId);
-    console.log(product, "prodotto in card");
+    // gestisco i vari stati di caricamento, errore e prodotto non trovato
     if (loading) return <p>Caricamento prodotto...</p>;
     if (error) return <p>Errore nel caricamento: {error.message || 'Errore sconosciuto'}</p>;
     if (!product || !product.product) return <p>Prodotto non trovato</p>;
