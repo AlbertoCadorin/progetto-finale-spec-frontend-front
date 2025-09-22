@@ -20,6 +20,9 @@ const ProductList = () => {
     // stato per la ricerca e l'ordinamento
     const [searchTerm, setSearchTerm] = useState("");
     const [sortOption, setSortOption] = useState("name-asc");
+    // stato per la categoria selezionata
+    const [selectedCategory, setSelectedCategory] = useState("");
+
 
 
     // funzione per gestire la ricerca con debounce
@@ -27,6 +30,18 @@ const ProductList = () => {
     const handleSort = (e) => {
         setSortOption(e.target.value);
     }
+
+    // funzione per gestire il cambiamento della categoria
+    const handleCategoryChange = (e) => {
+        setSelectedCategory(e.target.value);
+    }
+
+
+    // ottengo le categorie uniche dai prodotti
+    const categories = useMemo(() => {
+        if (!products) return [];
+        return Array.from(new Set(products.map(p => p.category)));
+    }, [products]);
 
     // filtro e ordino i prodotti in base ai criteri di ricerca e ordinamento
     const filteredProducts = useMemo(() => {
@@ -36,6 +51,10 @@ const ProductList = () => {
             filtered = filtered.filter(product =>
                 product.title.toLowerCase().includes(searchTerm.toLowerCase())
             );
+        }
+
+        if (selectedCategory) {
+            filtered = filtered.filter(product => product.category === selectedCategory);
         }
 
         // ordino i prodotti in base all'opzione selezionata
@@ -57,7 +76,7 @@ const ProductList = () => {
         }
 
         return filtered;
-    }, [products, searchTerm, sortOption]);
+    }, [products, searchTerm, sortOption, selectedCategory]);
 
 
     return (
@@ -70,14 +89,49 @@ const ProductList = () => {
                     className="form-control form-search mb-3"
                 />
             </div>
-            <div className="mb-4">
-                <label htmlFor="sort" className="form-label">Ordina per:</label>
-                <select value={sortOption} onChange={handleSort} className="form-select form-options mb-3">
-                    <option value="name-asc">nome: A a Z</option>
-                    <option value="name-desc">nome: Z a A</option>
-                    <option value="category-asc">Categoria: A a Z</option>
-                    <option value="category-desc">Categoria: Z a A</option>
-                </select>
+            <div className="mb-4 d-flex flex-wrap gap-3">
+                <div>
+                    <label htmlFor="sort" className="form-label">Ordina per:</label>
+                    <select value={sortOption} onChange={handleSort} className="form-select form-options mb-3">
+                        <option value="name-asc">nome: A a Z</option>
+                        <option value="name-desc">nome: Z a A</option>
+                        <option value="category-asc">Categoria: A a Z</option>
+                        <option value="category-desc">Categoria: Z a A</option>
+                    </select>
+                </div>
+                <div>
+                    <label className="form-label">Filtra per categoria:</label>
+                    {categories.map(category => (
+                        <div className="form-check" key={category}>
+                            <input
+                                className="form-check-input"
+                                type="radio"
+                                name="category"
+                                id={`category-${category}`}
+                                value={category}
+                                checked={selectedCategory === category}
+                                onChange={handleCategoryChange}
+                            />
+                            <label className="form-check-label" htmlFor={`category-${category}`}>
+                                {category}
+                            </label>
+                        </div>
+                    ))}
+                    <div className="form-check">
+                        <input
+                            className="form-check-input"
+                            type="radio"
+                            name="category"
+                            id="category-all"
+                            value=""
+                            checked={selectedCategory === ""}
+                            onChange={handleCategoryChange}
+                        />
+                        <label className="form-check-label" htmlFor="category-all">
+                            Tutte le categorie
+                        </label>
+                    </div>
+                </div>
             </div>
 
             <div className="row row-cols-1 row-cols-md-4 g-4 mt-2">

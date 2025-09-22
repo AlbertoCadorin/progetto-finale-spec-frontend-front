@@ -18,7 +18,6 @@ const ProductDetails = () => {
     const {
         title,
         category,
-        brand,
         releaseYear,
         price,
         memory,
@@ -42,7 +41,6 @@ const ProductDetails = () => {
                 <h3>Dettagli del prodotto</h3>
                 <ul>
                     <li><strong>Categoria:</strong> {category}</li>
-                    <li><strong>Marca:</strong> {brand}</li>
                     <li><strong>Anno di rilascio:</strong> {releaseYear}</li>
                     <li><strong>Prezzo:</strong> {price} €</li>
                     <li><strong>Memoria:</strong> {memory} GB</li>
