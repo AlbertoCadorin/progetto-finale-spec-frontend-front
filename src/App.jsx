@@ -6,6 +6,7 @@ import GlobalContextProvider from "../context/GlobalContext"
 import AboutPage from "../pages/AboutPage"
 import ContactsPage from "../pages/ContactsPage"
 import ProductDetails from "../components/ProductsDetails"
+import Wishlist from "../components/Wishlist"
 import './App.css'
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
             <Route path="/products/:id" element={<ProductDetails />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/contacts" element={<ContactsPage />} />
+            <Route path="/wishlist" element={<Wishlist />} />
           </Route>
         </Routes>
       </BrowserRouter>

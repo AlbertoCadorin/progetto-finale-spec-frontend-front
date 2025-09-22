@@ -1,12 +1,25 @@
 import { Link } from "react-router-dom";
 import useProduct from "../hooks/useProduct";
-
+import { GlobalContext } from "../context/GlobalContext";
+import { useContext } from "react";
 
 
 const ProductCard = ({ productId }) => {
 
     // uso l'hook personalizzato per ottenere i dettagli del prodotto
     const { product, loading, error } = useProduct(productId);
+    // prendo la wishlist e le funzioni per aggiungere/rimuovere dalla wishlist dal contesto globale
+    const { wishlist, addToWishlist, removeFromWishlist } = useContext(GlobalContext);
+
+    // funzione per gestire il click sul pulsante "Aggiungi alla wishlist"
+    const handleWishlistClick = () => {
+        if (wishlist.find(p => p.id === productId)) {
+            removeFromWishlist(productId);
+        } else {
+            addToWishlist(product.product);
+        }
+    }
+
     // gestisco i vari stati di caricamento, errore e prodotto non trovato
     if (loading) return <p>Caricamento prodotto...</p>;
     if (error) return <p>Errore nel caricamento: {error.message || 'Errore sconosciuto'}</p>;
@@ -29,6 +42,11 @@ const ProductCard = ({ productId }) => {
                         <p className="card-text">{product.product.category}</p>
                     </div>
                 </Link>
+                <div className="card-body ">
+                    <button onClick={handleWishlistClick} className={`btn ${wishlist.find(p => p.id === productId) ? 'btn-danger' : 'btn-primary'}`}>
+                        {wishlist.find(p => p.id === productId) ? 'Rimuovi dalla wishlist' : 'Aggiungi alla wishlist'}
+                    </button>
+                </div>
             </div>
         </div>
 

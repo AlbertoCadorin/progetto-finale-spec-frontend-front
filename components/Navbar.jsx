@@ -1,4 +1,5 @@
 import { NavLink } from "react-router-dom";
+import Wishlist from "./Wishlist";
 
 const Navbar = () => {
     return (
@@ -20,6 +21,9 @@ const Navbar = () => {
                         </li>
                         <li className="nav-item">
                             <NavLink to="/contacts" className="nav-link">Contacts</NavLink>
+                        </li>
+                        <li className="nav-item">
+                            <NavLink to="/wishlist" className="nav-link">Wishlist</NavLink>
                         </li>
                     </ul>
                 </div>
