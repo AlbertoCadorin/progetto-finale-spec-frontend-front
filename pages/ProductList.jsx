@@ -22,6 +22,8 @@ const ProductList = () => {
     const [sortOption, setSortOption] = useState("name-asc");
     // stato per la categoria selezionata
     const [selectedCategory, setSelectedCategory] = useState("");
+    // prendo la lista di confronto dal contesto globale
+    const { compare, removeFromCompare } = useContext(GlobalContext);
 
 
 
@@ -143,8 +145,47 @@ const ProductList = () => {
                     <p>Nessun prodotto trovato</p>
                 )}
             </div>
+            {/* barra di confronto fissa in basso se ci sono prodotti da confrontare */}
+            {compare.length > 0 && (
+                <div
+                    className="position-fixed bottom-0 start-50 translate-middle-x bg-white shadow-lg rounded-top p-4"
+                    style={{ minWidth: 700, zIndex: 1050, left: "50%", transform: "translateX(-50%)" }}
+                >
+                    <div className="d-flex align-items-center mb-3">
+                        <span className="fs-5 fw-semibold me-3">
+                            <i className="bi bi-arrow-left-right me-2"></i>
+                            Confronta i prodotti
+                        </span>
+                        <span className="text-muted">Selezionare 2 o più prodotti</span>
+                    </div>
+                    <div className="d-flex gap-3 mb-3 flex-wrap">
+                        {compare.map(p => (
+                            <div key={p.id} className="border rounded p-2 d-flex flex-column align-items-center position-relative" style={{ width: 120 }}>
+                                {p.image && (
+                                    <img
+                                        src={p.image}
+                                        alt={p.title}
+                                        style={{ width: 70, height: 70, objectFit: "cover", marginBottom: 8 }}
+                                    />
+                                )}
+                                <span className="small text-center">{p.title}</span>
+                                <button
+                                    className="btn-close position-absolute top-0 end-0"
+                                    style={{ fontSize: "0.8rem" }}
+                                    onClick={() => removeFromCompare(p.id)}
+                                />
+                            </div>
+                        ))}
+                    </div>
+                    <div className="d-flex justify-content-end gap-2">
+
+                        <button className="btn btn-dark" disabled={compare.length < 2}>
+                            Confronta
+                        </button>
+                    </div>
+                </div>
+            )}
         </div>
     );
-};
-
+}
 export default ProductList;
