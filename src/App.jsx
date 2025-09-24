@@ -7,6 +7,7 @@ import AboutPage from "../pages/AboutPage"
 import ContactsPage from "../pages/ContactsPage"
 import ProductDetails from "../components/ProductsDetails"
 import Wishlist from "../components/Wishlist"
+import ComparePage from "../pages/CoparePage"
 import './App.css'
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/products" element={<ProductList />} />
             <Route path="/products/:id" element={<ProductDetails />} />
+            <Route path="/compare/:id1/:id2" element={<ComparePage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/contacts" element={<ContactsPage />} />
             <Route path="/wishlist" element={<Wishlist />} />

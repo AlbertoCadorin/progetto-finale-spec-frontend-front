@@ -11,7 +11,7 @@ const ProductCard = ({ productId }) => {
     // prendo la wishlist e le funzioni per aggiungere/rimuovere dalla wishlist dal contesto globale
     const { wishlist, addToWishlist, removeFromWishlist } = useContext(GlobalContext);
     // prendo la lista di confronto e la funzione per aggiungere/rimuovere dal confronto dal contesto globale
-    const { compare, toggleCompare } = useContext(GlobalContext);
+    const { toggleCompare } = useContext(GlobalContext);
 
     // funzione per gestire il click sul pulsante "Aggiungi alla wishlist"
     const handleWishlistClick = () => {

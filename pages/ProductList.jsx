@@ -1,6 +1,7 @@
 import ProductCard from "../components/ProductsCard";
 import { useContext, useState, useCallback, useMemo } from "react";
 import { GlobalContext } from "../context/GlobalContext";
+import { Link } from "react-router-dom";
 
 
 function debounce(func, wait) {
@@ -178,10 +179,11 @@ const ProductList = () => {
                         ))}
                     </div>
                     <div className="d-flex justify-content-end gap-2">
-
-                        <button className="btn btn-dark" disabled={compare.length < 2}>
-                            Confronta
-                        </button>
+                        <Link to={`/compare/${compare[0].id}/${compare[1] ? compare[1].id : ''}`}>
+                            <button className="btn btn-dark" disabled={compare.length < 2}>
+                                Confronta
+                            </button>
+                        </Link>
                     </div>
                 </div>
             )}
