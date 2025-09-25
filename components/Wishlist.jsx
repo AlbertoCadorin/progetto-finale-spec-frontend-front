@@ -1,24 +1,34 @@
 import { useContext } from "react";
 import { GlobalContext } from "../context/GlobalContext";
 import ProductCard from "./ProductsCard";
+import CompareBar from "./CompareBar";
 
 const Wishlist = () => {
-    // prendo la wishlist dal contesto globale
-    const { wishlist } = useContext(GlobalContext);
+    const { wishlist, compare, toggleCompare } = useContext(GlobalContext);
+
     return (
-        <div className="container mt-4">
-            <h2>La mia Wishlist</h2>
-            {wishlist.length === 0 ? (
-                <p>La tua wishlist è vuota.</p>
-            ) : (
-                <div className="row">
-                    {wishlist.map(product => (
-                        <div className="col-md-4" key={product.id}>
-                            <ProductCard productId={product.id} />
+        <div className="container py-4">
+            <h2 className="mb-4">La tua Wishlist</h2>
+            <div className="row row-cols-1 row-cols-md-3 g-4">
+                {wishlist.length > 0 ? (
+                    wishlist.map(product => (
+                        <div className="col" key={product.id}>
+                            <ProductCard
+                                productId={product.id}
+                                isCompared={!!compare.find(p => p.id === product.id)}
+                                toggleCompare={toggleCompare}
+                            />
                         </div>
-                    ))}
-                </div>
-            )}
+                    ))
+                ) : (
+                    <div className="col">
+                        <div className="alert alert-info text-center">
+                            La wishlist è vuota.
+                        </div>
+                    </div>
+                )}
+            </div>
+            <CompareBar />
         </div>
     );
 };

@@ -1,11 +1,14 @@
 import { useParams, Link } from "react-router-dom";
 import useProduct from "../hooks/useProduct";
+import { GlobalContext } from "../context/GlobalContext";
+import { useContext } from "react";
 
 const ProductDetails = () => {
     // Ottengo l'ID del prodotto dai parametri dell'URL
     const { id } = useParams();
 
     const { product, loading, error } = useProduct(id);
+    const { addToWishlist, removeFromWishlist, wishlist } = useContext(GlobalContext);
 
     // Gestione degli stati di caricamento e errore
     if (loading) return <p>Caricamento prodotto...</p>;
@@ -64,6 +67,20 @@ const ProductDetails = () => {
                             <li className="list-group-item"><strong>Camera:</strong> {camera} MP</li>
                             <li className="list-group-item"><strong>Camera frontale:</strong> {camera1} MP</li>
                         </ul>
+                        <div className="d-flex justify-content-center gap-3">
+                            <button
+                                className={`btn ${wishlist.find(p => p.id === product.id) ? 'btn-danger' : 'btn-primary'} mb-3`}
+                                onClick={() => {
+                                    if (wishlist.find(p => p.id === product.id)) {
+                                        removeFromWishlist(product.id);
+                                    } else {
+                                        addToWishlist(product);
+                                    }
+                                }}
+                            >
+                                {wishlist.find(p => p.id === product.id) ? "Rimuovi dalla wishlist" : "Aggiungi alla wishlist"}
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
