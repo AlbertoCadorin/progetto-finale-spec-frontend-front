@@ -8,6 +8,7 @@ import ContactsPage from "../pages/ContactsPage"
 import ProductDetails from "../components/ProductsDetails"
 import Wishlist from "../components/Wishlist"
 import ComparePage from "../pages/CoparePage"
+import Footer from "../components/Footer"
 import './App.css'
 
 function App() {

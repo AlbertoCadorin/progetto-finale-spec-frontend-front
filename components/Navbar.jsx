@@ -1,6 +1,6 @@
 import { NavLink } from "react-router-dom";
 import { GlobalContext } from "../context/GlobalContext";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 
 const Navbar = () => {
 

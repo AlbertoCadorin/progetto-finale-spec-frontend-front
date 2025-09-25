@@ -20,10 +20,10 @@ const ComparePage = () => {
         return <p>Prodotto non trovato</p>;
     }
 
+    // estraggo i dettagli dei prodotti
     const product1 = product1Data.product;
     const product2 = product2Data.product;
-    console.log(product1);
-    console.log(product2);
+
 
     // estraggo le proprietà dei prodotti
     const productKey1s = Object.keys(product1);
@@ -120,10 +120,10 @@ const ComparePage = () => {
                             <tr key={key}>
                                 <td style={{ fontWeight: 500 }}>{formatKey(key)}</td>
                                 <td>
-                                    {getValueAndUnit(product1, key).value} {getValueAndUnit(product1, key).unit}
+                                    {getValueAndUnit(product1, key).value ?? "-"} {getValueAndUnit(product1, key).unit}
                                 </td>
                                 <td>
-                                    {getValueAndUnit(product2, key).value} {getValueAndUnit(product2, key).unit}
+                                    {getValueAndUnit(product2, key).value ?? "-"} {getValueAndUnit(product2, key).unit}
                                 </td>
                             </tr>
                         ))}

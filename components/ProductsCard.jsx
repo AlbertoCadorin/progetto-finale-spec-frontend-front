@@ -8,10 +8,9 @@ const ProductCard = ({ productId }) => {
 
     // uso l'hook personalizzato per ottenere i dettagli del prodotto
     const { product, loading, error } = useProduct(productId);
-    // prendo la wishlist e le funzioni per aggiungere/rimuovere dalla wishlist dal contesto globale
-    const { wishlist, addToWishlist, removeFromWishlist } = useContext(GlobalContext);
-    // prendo la lista di confronto e la funzione per aggiungere/rimuovere dal confronto dal contesto globale
-    const { toggleCompare } = useContext(GlobalContext);
+    // prendo la wishlist e le funzioni per aggiungere/rimuovere dalla wishlist dal contesto globale 
+    const { wishlist, addToWishlist, removeFromWishlist, toggleCompare } = useContext(GlobalContext);
+
 
     // funzione per gestire il click sul pulsante "Aggiungi alla wishlist"
     const handleWishlistClick = () => {
@@ -45,7 +44,7 @@ const ProductCard = ({ productId }) => {
                     </div>
                 </Link>
                 <div className="card-body ">
-                    <button onClick={handleWishlistClick} className={`btn ${wishlist.find(p => p.id === productId) ? 'btn-danger' : 'btn-primary'}`}>
+                    <button onClick={handleWishlistClick} className={`btn ${wishlist.find(p => p.id === productId) ? 'btn-danger' : 'btn-purple'}`}>
                         {wishlist.find(p => p.id === productId)
                             ? <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" className="bi bi-heart-fill" viewBox="0 0 16 16">
                                 <path fillRule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314" />
@@ -56,7 +55,7 @@ const ProductCard = ({ productId }) => {
                     </button>
                     <button
                         onClick={() => toggleCompare(product.product)}
-                        className={`btn btn-outline-warning ms-2`}
+                        className={`btn btn-outline-purple ms-2`}
                     >
                         confronta
                     </button>

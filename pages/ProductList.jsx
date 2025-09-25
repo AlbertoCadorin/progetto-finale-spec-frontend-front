@@ -84,72 +84,80 @@ const ProductList = () => {
 
     return (
         <div className="container mt-4">
-            <h1>Product List</h1>
-            <div className="mb-4">
-                <input
-                    type="text" placeholder="Cerca prodotto..."
-                    onChange={(e) => handleSearch(e.target.value)}
-                    className="form-control form-search mb-3"
-                />
-            </div>
-            <div className="mb-4 d-flex flex-wrap gap-3">
-                <div>
+            <h1 className="mb-4">Product List</h1>
+            <div className="row mb-4">
+                <div className="col-md-4 mb-2 mt-auto">
+                    <input
+                        type="text"
+                        placeholder="Cerca prodotto..."
+                        onChange={(e) => handleSearch(e.target.value)}
+                        className="form-control"
+                    />
+                </div>
+                <div className="col-md-4 mb-2">
                     <label htmlFor="sort" className="form-label">Ordina per:</label>
-                    <select value={sortOption} onChange={handleSort} className="form-select form-options mb-3">
-                        <option value="name-asc">nome: A a Z</option>
-                        <option value="name-desc">nome: Z a A</option>
+                    <select value={sortOption} onChange={handleSort} className="form-select">
+                        <option value="name-asc">Nome: A a Z</option>
+                        <option value="name-desc">Nome: Z a A</option>
                         <option value="category-asc">Categoria: A a Z</option>
                         <option value="category-desc">Categoria: Z a A</option>
                     </select>
                 </div>
-                <div>
+                <div className="col-md-4 mb-2">
                     <label className="form-label">Filtra per categoria:</label>
-                    {categories.map(category => (
-                        <div className="form-check" key={category}>
+                    <div>
+                        {categories.map(category => (
+                            <div className="form-check form-check-inline" key={category}>
+                                <input
+                                    className="form-check-input"
+                                    type="radio"
+                                    name="category"
+                                    id={`category-${category}`}
+                                    value={category}
+                                    checked={selectedCategory === category}
+                                    onChange={handleCategoryChange}
+                                />
+                                <label className="form-check-label" htmlFor={`category-${category}`}>
+                                    {category}
+                                </label>
+                            </div>
+                        ))}
+                        <div className="form-check form-check-inline">
                             <input
                                 className="form-check-input"
                                 type="radio"
                                 name="category"
-                                id={`category-${category}`}
-                                value={category}
-                                checked={selectedCategory === category}
+                                id="category-all"
+                                value=""
+                                checked={selectedCategory === ""}
                                 onChange={handleCategoryChange}
                             />
-                            <label className="form-check-label" htmlFor={`category-${category}`}>
-                                {category}
+                            <label className="form-check-label" htmlFor="category-all">
+                                Tutte
                             </label>
                         </div>
-                    ))}
-                    <div className="form-check">
-                        <input
-                            className="form-check-input"
-                            type="radio"
-                            name="category"
-                            id="category-all"
-                            value=""
-                            checked={selectedCategory === ""}
-                            onChange={handleCategoryChange}
-                        />
-                        <label className="form-check-label" htmlFor="category-all">
-                            Tutte le categorie
-                        </label>
                     </div>
                 </div>
             </div>
 
-            <div className="row row-cols-1 row-cols-md-4 g-4 mt-2">
+            <div className="row row-cols-1 row-cols-md-4 g-4">
                 {filteredProducts.length > 0 ? (
                     filteredProducts.map(product => (
                         <ProductCard key={product.id} productId={product.id} />
                     ))
                 ) : (
-                    <p>Nessun prodotto trovato</p>
+                    <div className="col">
+                        <div className="alert alert-warning text-center">
+                            Nessun prodotto trovato
+                        </div>
+                    </div>
                 )}
             </div>
-            {/* barra di confronto fissa in basso se ci sono prodotti da confrontare */}
+
+            {/* Barra confronto sticky in basso */}
             {compare.length > 0 && (
                 <div
-                    className="position-fixed bottom-0 start-50 translate-middle-x bg-white shadow-lg rounded-top p-4"
+                    className="position-fixed bottom-0 start-50 translate-middle-x bg-white shadow rounded-top p-4"
                     style={{ minWidth: 700, zIndex: 1050, left: "50%", transform: "translateX(-50%)" }}
                 >
                     <div className="d-flex align-items-center mb-3">
@@ -166,7 +174,8 @@ const ProductList = () => {
                                     <img
                                         src={p.image}
                                         alt={p.title}
-                                        style={{ width: 70, height: 70, objectFit: "cover", marginBottom: 8 }}
+                                        className="img-fluid mb-2"
+                                        style={{ width: 70, height: 70, objectFit: "cover" }}
                                     />
                                 )}
                                 <span className="small text-center">{p.title}</span>
@@ -174,16 +183,23 @@ const ProductList = () => {
                                     className="btn-close position-absolute top-0 end-0"
                                     style={{ fontSize: "0.8rem" }}
                                     onClick={() => removeFromCompare(p.id)}
+                                    aria-label={`Rimuovi ${p.title} dal confronto`}
                                 />
                             </div>
                         ))}
                     </div>
                     <div className="d-flex justify-content-end gap-2">
-                        <Link to={`/compare/${compare[0].id}/${compare[1] ? compare[1].id : ''}`}>
-                            <button className="btn btn-dark" disabled={compare.length < 2}>
+                        {compare.length >= 2 ? (
+                            <Link to={`/compare/${compare[0].id}/${compare[1].id}`}>
+                                <button className="btn btn-purple">
+                                    Confronta
+                                </button>
+                            </Link>
+                        ) : (
+                            <button className="btn btn-purple" disabled>
                                 Confronta
                             </button>
-                        </Link>
+                        )}
                     </div>
                 </div>
             )}

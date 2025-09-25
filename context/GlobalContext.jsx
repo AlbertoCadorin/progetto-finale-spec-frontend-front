@@ -26,10 +26,14 @@ const GlobalContextProvider = ({ children }) => {
         setWishlist((prev) => prev.filter((p) => p.id !== productId));
     }
 
-    // funzione per aggiungere un prodotto dal confronto
+    // funzione per aggiungere o rimuovere un prodotto dal confronto 
     const toggleCompare = (product) => {
-        setCompare(prev => [...prev, product]);
-    }
+        setCompare(prev =>
+            prev.find(p => p.id === product.id)
+                ? prev.filter(p => p.id !== product.id)
+                : [...prev, product]
+        );
+    };
 
     // funzione per rimuovere un prodotto dal confronto
     const removeFromCompare = (id) => setCompare(prev => prev.filter(p => p.id !== id));
