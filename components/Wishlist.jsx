@@ -4,6 +4,7 @@ import ProductCard from "./ProductsCard";
 import CompareBar from "./CompareBar";
 
 const Wishlist = () => {
+
     const { wishlist, compare, toggleCompare } = useContext(GlobalContext);
 
     return (

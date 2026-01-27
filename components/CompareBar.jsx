@@ -17,7 +17,7 @@ const CompareBar = () => {
                     <i className="bi bi-arrow-left-right me-2"></i>
                     Confronta i prodotti
                 </span>
-                <span className="text-muted">Selezionare 2 o più prodotti</span>
+                <span className="text-muted">Selezionare 2 </span>
             </div>
             <div className="d-flex gap-3 mb-3 flex-wrap">
                 {compare.map(p => (

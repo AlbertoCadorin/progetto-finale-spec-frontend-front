@@ -4,6 +4,7 @@ import useProduct from "../hooks/useProduct";
 import { GlobalContext } from "../context/GlobalContext";
 
 const ProductCard = ({ productId, isCompared, toggleCompare }) => {
+    
     const { product, loading, error } = useProduct(productId);
     const { wishlist, addToWishlist, removeFromWishlist } = useContext(GlobalContext);
 

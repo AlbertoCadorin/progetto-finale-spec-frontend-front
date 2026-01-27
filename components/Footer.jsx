@@ -1,6 +1,3 @@
-
-
-
 const Footer = () => (
     <footer className="bg-dark text-light py-4 mt-5 border-top">
         <div className="container d-flex flex-column flex-md-row justify-content-between align-items-center">
