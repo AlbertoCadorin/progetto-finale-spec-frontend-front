@@ -82,9 +82,9 @@ const ProductList = () => {
     }, [products, searchTerm, sortOption, selectedCategory]);
 
     return (
-        <div className="container mt-4">
-            <h1 className="mb-4">Product List</h1>
-            <div className="row mb-4">
+        <div className="container py-4">
+            <h1 className="catalog-title mb-4">Catalogo prodotti</h1>
+            <div className="row mb-4 catalog-toolbar">
                 <div className="col-md-4 mb-2 mt-auto">
                     <input
                         type="text"
@@ -139,7 +139,7 @@ const ProductList = () => {
                 </div>
             </div>
 
-            <div className="row row-cols-1 row-cols-md-4 g-4">
+            <div className="row row-cols-1 row-cols-md-3 row-cols-xl-4 g-4">
                 {filteredProducts.length > 0 ? (
                     filteredProducts.map(product => (
                         <div className="col" key={product.id}>

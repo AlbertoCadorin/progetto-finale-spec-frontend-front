@@ -5,7 +5,7 @@ import Footer from "../components/Footer";
 const DefaultLayout = () => {
     return (
         <>
-            <div className="d-flex flex-column min-vh-100 bg-light">
+            <div className="d-flex flex-column min-vh-100 layout-shell">
                 <header>
                     <Navbar />
                 </header>

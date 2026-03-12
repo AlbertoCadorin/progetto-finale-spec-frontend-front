@@ -7,30 +7,30 @@ const Navbar = () => {
     const { wishlist } = useContext(GlobalContext);
 
     return (
-        <nav className="navbar navbar-expand nav-color">
+        <nav className="navbar navbar-expand-lg nav-theme sticky-top">
             <div className="container">
-                <div className="d-flex justify-content-between flex-lg-grow-0 px-3">
+                <div className="d-flex justify-content-between flex-lg-grow-0 px-2">
                     <NavLink className="navbar-brand" to="/">MyStore</NavLink>
                 </div>
-                <div className="collapse navbar-collapse justify-content-end " >
+                <div className="d-flex justify-content-end flex-grow-1" >
                     <ul className="navbar-nav px-3">
                         <li className="nav-item">
-                            <NavLink to="/" className="nav-link">Home</NavLink>
+                            <NavLink to="/" className={({ isActive }) => `nav-link${isActive ? " is-active" : ""}`}>Home</NavLink>
                         </li>
                         <li className="nav-item">
-                            <NavLink to="/products" className="nav-link">Products</NavLink>
+                            <NavLink to="/products" className={({ isActive }) => `nav-link${isActive ? " is-active" : ""}`}>Products</NavLink>
                         </li>
                         <li className="nav-item">
-                            <NavLink to="/about" className="nav-link">About</NavLink>
+                            <NavLink to="/about" className={({ isActive }) => `nav-link${isActive ? " is-active" : ""}`}>About</NavLink>
                         </li>
                         <li className="nav-item">
-                            <NavLink to="/contacts" className="nav-link">Contacts</NavLink>
+                            <NavLink to="/contacts" className={({ isActive }) => `nav-link${isActive ? " is-active" : ""}`}>Contacts</NavLink>
                         </li>
                         <li className="nav-item">
-                            <NavLink to="/wishlist" className="nav-link position-relative">
+                            <NavLink to="/wishlist" className={({ isActive }) => `nav-link position-relative${isActive ? " is-active" : ""}`}>
                                 Wishlist
                                 {wishlist.length > 0 && (
-                                    <span className="position-absolute top-10 start-100 translate-middle badge rounded-pill bg-danger">
+                                    <span className="position-absolute top-10 start-100 translate-middle badge rounded-pill wishlist-count">
                                         {wishlist.length}
                                     </span>
                                 )}

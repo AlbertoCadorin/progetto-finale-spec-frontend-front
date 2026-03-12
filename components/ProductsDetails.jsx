@@ -15,10 +15,9 @@ const ProductDetails = () => {
     if (error) return <p>Errore nel caricamento: {error.message || 'Errore sconosciuto'}</p>;
     if (!product) return <p>Prodotto non trovato</p>;
 
-    console.log(product);
-
     // Estraggo le proprietà del prodotto
     const {
+        id: productId,
         title,
         category,
         releaseYear,
@@ -36,24 +35,23 @@ const ProductDetails = () => {
     } = product.product;
 
     return (
-        <div className="container mt-5">
+        <div className="container py-5">
             <div className="row justify-content-center">
                 <div className="col-md-8 col-lg-6">
                     {/* Bottone Torna alla lista */}
                     <Link to="/products" className="btn btn-outline-purple mb-3">
                         Torna alla lista
                     </Link>
-                    <div className="card shadow-lg border-0 rounded-4 p-4">
+                    <div className="card border-0 p-4 details-shell">
                         <div className="text-center mb-4">
                             <img
                                 src={image}
                                 alt={title}
-                                className="img-fluid rounded-3"
-                                style={{ maxHeight: "300px", objectFit: "contain", background: "#f8f9fa" }}
+                                className="img-fluid details-image"
                             />
                         </div>
                         <h2 className="text-center mb-3">{title}</h2>
-                        <h4 className="text-center text-success mb-4">{price} €</h4>
+                        <h4 className="text-center text-purple mb-4">{price} €</h4>
                         <ul className="list-group list-group-flush mb-3">
                             <li className="list-group-item"><strong>Categoria:</strong> {category}</li>
                             <li className="list-group-item"><strong>Anno di rilascio:</strong> {releaseYear}</li>
@@ -69,16 +67,16 @@ const ProductDetails = () => {
                         </ul>
                         <div className="d-flex justify-content-center gap-3">
                             <button
-                                className={`btn ${wishlist.find(p => p.id === product.id) ? 'btn-danger' : 'btn-primary'} mb-3`}
+                                className={`btn ${wishlist.find(p => p.id === productId) ? 'btn-wishlist-active' : 'btn-purple'} mb-3`}
                                 onClick={() => {
-                                    if (wishlist.find(p => p.id === product.id)) {
-                                        removeFromWishlist(product.id);
+                                    if (wishlist.find(p => p.id === productId)) {
+                                        removeFromWishlist(productId);
                                     } else {
-                                        addToWishlist(product);
+                                        addToWishlist(product.product);
                                     }
                                 }}
                             >
-                                {wishlist.find(p => p.id === product.id) ? "Rimuovi dalla wishlist" : "Aggiungi alla wishlist"}
+                                {wishlist.find(p => p.id === productId) ? "Rimuovi dalla wishlist" : "Aggiungi alla wishlist"}
                             </button>
                         </div>
                     </div>

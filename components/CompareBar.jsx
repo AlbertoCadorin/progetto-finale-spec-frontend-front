@@ -9,8 +9,8 @@ const CompareBar = () => {
 
     return (
         <div
-            className="position-fixed bottom-0 start-50 translate-middle-x bg-white shadow rounded-top p-4"
-            style={{ minWidth: 700, zIndex: 1050, left: "50%", transform: "translateX(-50%)" }}
+            className="position-fixed bottom-0 start-50 translate-middle-x shadow p-4 compare-dock"
+            style={{ left: "50%", transform: "translateX(-50%)" }}
         >
             <div className="d-flex align-items-center mb-3">
                 <span className="fs-5 fw-semibold me-3">
@@ -21,13 +21,13 @@ const CompareBar = () => {
             </div>
             <div className="d-flex gap-3 mb-3 flex-wrap">
                 {compare.map(p => (
-                    <div key={p.id} className="border rounded p-2 d-flex flex-column align-items-center position-relative" style={{ width: 120 }}>
+                    <div key={p.id} className="p-2 d-flex flex-column align-items-center position-relative compare-card">
                         {p.image && (
                             <img
                                 src={p.image}
                                 alt={p.title}
                                 className="img-fluid mb-2"
-                                style={{ width: 70, height: 70, objectFit: "cover" }}
+                                style={{ width: 70, height: 70, objectFit: "cover", borderRadius: 8 }}
                             />
                         )}
                         <span className="small text-center">{p.title}</span>

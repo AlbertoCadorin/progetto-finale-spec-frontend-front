@@ -15,32 +15,28 @@ const ProductCard = ({ productId, isCompared, toggleCompare }) => {
     const inWishlist = wishlist.find(p => p.id === productId);
 
     return (
-        <div className="card mb-3">
-            <Link to={`/products/${productId}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-                <img
-                    src={product.product.image}
-                    className="card-img-top"
-                    style={{
-                        width: "100%",
-                        height: "180px",
-                        objectFit: "scale-down",
-                        objectPosition: "center"
-                    }}
-                    alt={product.product.title}
-                />
+        <div className="card product-card mb-3">
+            <Link to={`/products/${productId}`} className="product-link">
+                <div className="product-image-wrap">
+                    <img
+                        src={product.product.image}
+                        className="card-img-top product-image"
+                        alt={product.product.title}
+                    />
+                </div>
                 <div className="card-body">
-                    <h5 className="card-title">{product.product.title}</h5>
-                    <p className="card-text">{product.product.category}</p>
+                    <h5 className="card-title product-title">{product.product.title}</h5>
+                    <p className="card-text product-category">{product.product.category}</p>
                 </div>
             </Link>
-            <div className="card-body d-flex gap-2">
+            <div className="card-body d-flex gap-2 product-actions">
                 <button
                     onClick={() =>
                         inWishlist
                             ? removeFromWishlist(productId)
                             : addToWishlist(product.product)
                     }
-                    className={`btn ${inWishlist ? 'btn-danger' : 'btn-purple'}`}
+                    className={`btn ${inWishlist ? 'btn-wishlist-active' : 'btn-purple'}`}
                 >
                     {inWishlist
                         ? <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" className="bi bi-heart-fill" viewBox="0 0 16 16">
