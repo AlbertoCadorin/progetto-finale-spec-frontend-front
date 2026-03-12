@@ -47,6 +47,26 @@ const ComparePage = () => {
             .replace(/^./, str => str.toUpperCase()); // metto la prima lettera in maiuscolo
     }
 
+    const parseComparableValue = (value) => {
+        if (value === null || value === undefined) return null;
+        if (typeof value === "number") return value;
+        const numeric = Number(String(value).replace(/[^\d.-]/g, ""));
+        return Number.isNaN(numeric) ? null : numeric;
+    }
+
+    const getWinner = (key) => {
+        const left = parseComparableValue(product1[key]);
+        const right = parseComparableValue(product2[key]);
+
+        if (left === null || right === null || left === right) return null;
+
+        if (key === "price") {
+            return left < right ? "left" : "right";
+        }
+
+        return left > right ? "left" : "right";
+    }
+
     // ottengo il valore e l'unita di misura
     const getValueAndUnit = (product, key) => {
         const value = product[key];
@@ -72,63 +92,61 @@ const ComparePage = () => {
     }
 
     return (
-        <div className="container mt-4">
-            <h1 className="mb-4">Confronto Prodotti</h1>
-            <div className="row mb-4">
-                <div className="col-md-6 text-center">
-                    <h4>{product1.title}</h4>
-                    <img
+        <div className="container py-4">
+            <div className="compare-shell">
+                <h1 className="catalog-title mb-4">Confronto prodotti</h1>
+                <div className="row mb-4 g-3">
+                    <div className="col-md-6 text-center">
+                        <div className="compare-head-card">
+                            <h4 className="compare-product-title">{product1.title}</h4>
+                            <img
                         src={product1.image}
-                        alt={product1.title}
-                        style={{
-                            maxWidth: '180px',
-                            maxHeight: '180px',
-                            objectFit: 'cover',
-                            borderRadius: '10px',
-                            marginBottom: '10px',
-                            boxShadow: '0 2px 8px rgba(0,0,0,0.08)'
-                        }}
-                    />
-                </div>
-                <div className="col-md-6 text-center">
-                    <h4>{product2.title}</h4>
-                    <img
+                                alt={product1.title}
+                                className="compare-product-image"
+                            />
+                        </div>
+                    </div>
+                    <div className="col-md-6 text-center">
+                        <div className="compare-head-card">
+                            <h4 className="compare-product-title">{product2.title}</h4>
+                            <img
                         src={product2.image}
-                        alt={product2.title}
-                        style={{
-                            maxWidth: '180px',
-                            maxHeight: '180px',
-                            objectFit: 'cover',
-                            borderRadius: '10px',
-                            marginBottom: '10px',
-                            boxShadow: '0 2px 8px rgba(0,0,0,0.08)'
-                        }}
-                    />
+                                alt={product2.title}
+                                className="compare-product-image"
+                            />
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div className="table-responsive">
-                <table className="table table-bordered align-middle text-center shadow-sm">
-                    <thead className="table-light">
-                        <tr>
-                            <th style={{ width: "30%" }}>Caratteristica</th>
-                            <th style={{ width: "35%" }}>{product1.title}</th>
-                            <th style={{ width: "35%" }}>{product2.title}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {filteredKeys.map((key) => (
-                            <tr key={key}>
-                                <td style={{ fontWeight: 500 }}>{formatKey(key)}</td>
-                                <td>
-                                    {getValueAndUnit(product1, key).value ?? "-"} {getValueAndUnit(product1, key).unit}
-                                </td>
-                                <td>
-                                    {getValueAndUnit(product2, key).value ?? "-"} {getValueAndUnit(product2, key).unit}
-                                </td>
+                <div className="table-responsive">
+                    <table className="table table-bordered align-middle text-center shadow-sm compare-table mb-0">
+                        <thead>
+                            <tr>
+                                <th style={{ width: "30%" }}>Caratteristica</th>
+                                <th style={{ width: "35%" }}>{product1.title}</th>
+                                <th style={{ width: "35%" }}>{product2.title}</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {filteredKeys.map((key) => {
+                                const winner = getWinner(key);
+                                const leftValue = getValueAndUnit(product1, key);
+                                const rightValue = getValueAndUnit(product2, key);
+
+                                return (
+                                    <tr key={key}>
+                                        <td className="compare-feature">{formatKey(key)}</td>
+                                        <td className={winner === "left" ? "compare-winner" : ""}>
+                                            {leftValue.value ?? "-"} {leftValue.unit}
+                                        </td>
+                                        <td className={winner === "right" ? "compare-winner" : ""}>
+                                            {rightValue.value ?? "-"} {rightValue.unit}
+                                        </td>
+                                    </tr>
+                                );
+                            })}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     );
